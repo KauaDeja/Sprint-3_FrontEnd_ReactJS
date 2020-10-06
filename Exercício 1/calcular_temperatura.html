@@ -6,23 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Conversão Temperatura</title>
-<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=32KW_tpQu9gv4RhT-wLUDeXNPkAbKIwEj3PrV04iVaforxIIJ1DVodJw0pWJqN9mNzqG2TmklTT7vcKmY-l9c_7tTrHW6zJzf136Qfy4NjAfr8A0vIGptvkX8fky_wMDDbQJ0JXYQ-l79rpxsCR2wO9YsQrGrwR4W6sCoICdAagMqGtW3Ovfw-HSIiiiceAuYB3ONQZ6k2sVa6SV0ieJnt9cyDFAnTHMXFm0f-dzseAK81d5A3R2WbIfc7-hQflgS33VGVpRQ_8UZzwgtRwo2DiiVFhAA_KqVc2RGnC93YORFscvyHBjyqdCJK-fVV3WQFzKRNvprHukEA5HkwBj3fL0yiqmXwc3xZc1FA-COj2wWIdmG8EiUu6y0pqc3f8BSy3_Pozq5DBz8SpzIsuLHZf-nXwPCvLoDDM_cvOS0gHI4oY4BYW3IMAUVesNa0MGq8meEFkaCayjSti1jRufdQ" charset="UTF-8"></script></head>
+</head>
 
 <body>
 
     <form id="formtemperatura">
-        <label for="temperatura">
-            Temperatura: 
-            <input type="text" name="temperatura" id="temperatura" required>
-        </label>
-        <input type="radio"  id="celcius" name="tipo">Celcius</checkbox>
-        <input type="radio"  id="fahrenheit" name="tipo">Fahrenheit</checkbox>
+        <input type="text" required name="temperatura" id="temperatura">
+        
+        <input type="checkbox"  id="celcius"  name="temperatura">Celcius</checkbox>
+        <input type="checkbox"  id="fahrenheit" name="temperatura">Fahrenheit</checkbox>
         <button type="submit" id="btnConverter">Converter</button>
-        <div class="resultado"></div>
     </form>
 
     <script>
-      // Pega elementos do document com querySelector
+
+        // Pega elementos do document com querySelector
         // Debugger => Vai adicionar um breakpoint para testar o comando que foi dado a esta ação
         // Event => Ação que vai ocorrer
         // Id => #nomeDoElemento
@@ -37,30 +35,24 @@
         // preventDefault => Previnir para que não seja enviado a informação no submit recarregando a página
         // Definir as prioridades das opetrações com parenteses
         
-        let inputTemperatura = document.querySelector("#temperatura");
-        let celcius = document.querySelector("#celcius");
-        let fahrenheit = document.querySelector("#fahrenheit");
-        const converter = document.querySelector("#btnConverter");
-        let resultado = document.querySelector(".resultado");
+       let temperatura = document.querySelector('#temperatura');
+       let celcius = document.querySelector('#celcius');
+       let fahrenheit = document.querySelector('#fahrenheit');
+       let btnConverter = document.querySelector('#btnConverter');
 
-        converter.onclick = function(event) {
-        //Isso previne que quando você clicar no submit ele atualize a página.
-        event.preventDefault();
-        let temperatura = Number(inputTemperatura.value);
-        // Aqui fazemos uma verificação para saber se a temperatura em celcius foi chegada
-        if(celcius.checked == true)
-            //innerHTML => innerHTML define ou obtém a sintaxe HTML ou XML descrevendo os elementos descendentes
-            // Aqui fazemos a operação que vai ser responsável pela conversão dos valores
-            resultado.innerHTML = `${temperatura}°C = ${(((temperatura*9) / 5) + 32).toFixed(2)}°F`;
+       btnConverter.addEventListener('click', converter);
 
-        // Aqui fazemos uma verificação para saber se a temperatura em fahrenheit foi chegada
-        if(fahrenheit.checked == true)
-            //innerHTML => innerHTML define ou obtém a sintaxe HTML ou XML descrevendo os elementos descendentes
-            // Aqui fazemos a operação que vai ser responsável pela conversão dos valores
-            resultado.innerHTML = `${temperatura}°F = ${(((temperatura - 32) * 5) / 9).toFixed(2)}°C`;
-        
-        }
+       function converter(event) {
+           event.preventDefault();
 
+           if(!celcius.checked && !fahrenheit.checked){
+               alert('Informe o tipo de conversão');
+           } else if(celcius.checked){
+               alert(((temperatura.value - 32) * 5) / 9);
+           } else{
+               alert(((temperatura.value * 9) / 5) + 32);
+           }
+       }
     </script>
 
 </body>
