@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela Frutas</title>
+</head>
+<body onload="Listar()">
+    <input type="text" required id='fruta' />
+    <button type="button" id='btnCadastrar'>Cadastrar</button>
+    <button type="button" id='btnRemover'>Remover</button>
+    <table>
+        <caption>Frutas</caption>
+        <thead>
+            <th>
+                Nome
+            </th>
+        </thead>
+        <tbody id="tabela-lista-corpo">
+        
+        </tbody>
+    </table>    
+    <script>
+        // Criamos um array de string 
+       let frutas = ['maça' , 'morango' , 'pessego'];
+
+       // Criamos um array de inteiros 
+        //let numeros = [5, 10, 13];
+
+        // Criamos um array de objetos 
+        //let pessoas = [{ id : 1, nome: 'Kaua'},{ id : 2, nome: 'Rodrigo'}]
+
+       // Chamamos o botao de cadastrar
+       let btnCadastrar = document.querySelector('#btnCadastrar');
+       btnCadastrar.addEventListener('click',Cadastrar);
+
+       let btnRemover = document.querySelector('#btnRemover');
+       btnRemover.addEventListener('click', Remover);
+
+        // Criamos a função listar
+        function Listar(){
+            let corpoTabela = document.querySelector('#tabela-lista-corpo');
+            //Limpa o tbody da tabela
+            corpoTabela.innerHTML = "";
+
+            // Irá armazenar os elementos tr e td
+            let linha, colunaNome;
+
+            // Percorrendo o array 
+            // Item é a referencia ao meu elemento/objeto no array
+            frutas.forEach(item =>{
+                // Criei o elemento tr na linha
+                linha = document.createElement('tr'); // <tr><tr>
+
+                // Criei o elemento td na coluna
+                colunaNome = document.createElement('td');// <td><td>
+
+                // Pode-se usar dos comandos Html
+                // E o innerText já coloca o texto direto
+                colunaNome.innerText = item;// <td>Maça<td>
+
+                // Aqui fala pro td que ele faz parte dda linha, ou seja, td é o filho do tr
+                linha.appendChild(colunaNome);// <tr><td>Maça<td><tr>
+                corpoTabela.appendChild(linha);// <tbody><tr><td>Maça<td><tr><tbody>
+
+            });
+        }
+        // Criamos a função Cadastrar
+        function Cadastrar(event){
+            event.preventDefault();
+
+            let fruta = document.querySelector('#fruta');
+
+            // Adiciona a fruta
+            frutas.push(fruta.value);
+
+            // Fruta vai para lista
+            Listar();
+        }
+
+        // Criamos a função Remover
+        function Remover(event){
+            event.preventDefault();
+
+            // Pega nome da fruta
+            let fruta = document.querySelector("#fruta");
+            // Verifica se existe no array
+            //frutas.forEach(item =>{
+                // if(item == fruta.value){
+                    // Remove a fruta
+                     
+                // }
+            // })
+
+              let index = frutas.indexOf(fruta.value);
+              console.log(index);   
+
+            // Se existir exclui
+            if(index > -1){
+                // Remove pelo indice e a qtd de frutas a serem removidas
+                frutas.splice(index, 1);
+                alert('Fruta Removida');
+
+                fruta.value = '';
+                fruta.focus();
+
+                Listar();
+            }else{
+                alert('Fruta não encontrada');
+            }
+            // Não existir envia um alerta
+        }
+    </script>
+</body>
+</html>
