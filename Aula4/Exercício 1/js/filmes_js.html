@@ -18,25 +18,21 @@
         <table>
             <caption>Filmes</caption>
             <thead>
-                <th>
-                    Id
-                </th>
-                <th>
-                    Nome
-                </th>
-                <th>
-                    Categoria
-                </th>
-                <th>
-                    Ano Lançamento
-                </th>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Ano</th>
             </thead>
             <tbody id="tabela-lista-corpo"></tbody>
-        </table>
+        </table>   
     </form>
 
 </body>
 <script>
+    let movies = [{ 
+                            nome : 'O Assalto ao carro Blindado',
+                            categoria : 'Ação',
+                            dataLancamento : '2020-09-08T13:00:00'
+                        }]
     // url => endpoint
      let url = "https://5f7f7f14d6aabe00166f064d.mockapi.io/api/filmes";
      let filme = document.querySelector('#nome');
@@ -45,8 +41,34 @@
      // Armazena a categoria retornadas da api para que sejam globa, visiveis em outras funções
      let filmes = [];
 
-
      function listar(){
+        let corpoTabela = document.querySelector('#tabela-lista-corpo'); //<tbody></tbody>
+            //Limpa o tbody da tabela
+            corpoTabela.innerHTML = "";
+
+            //Irá armazenar os elemento tr e td
+            let linha, colunaNome, colunaCategoria, colunaAno;
+            
+            //Percorrendo o array
+            //Item é a referencia ao meu elemento/objeto no array
+            movies.forEach(item => {
+                linha = document.createElement('tr'); //<tr></tr>
+
+                colunaNome = document.createElement('td');//<td></td>
+                colunaNome.innerText = item.nome; //<td>O Assalto ao carro Blindado</td>
+                linha.appendChild(colunaNome); //<tr><td>O Assalto ao carro Blindado</td></tr>
+
+                colunaCategoria = document.createElement('td');//<td></td>
+                colunaCategoria.innerText = item.categoria; //<td>Ação</td>
+                linha.appendChild(colunaCategoria); //<tr><td>O Assalto ao carro Blindado</td><td>Ação</td></tr>
+
+                colunaAno = document.createElement('td');//<td></td>
+                colunaAno.innerText = item.dataLancamento; //<td>2020-09-08T13:00:00</td>
+                linha.appendChild(colunaAno); //<tr><td>O Assalto ao carro Blindado</td><td>Ação</td><td>2020-09-08T13:00:00</td></tr>
+
+                corpoTabela.appendChild(linha); //<tbody><tr><td>O Assalto ao carro Blindado</td><td>Ação</td><td>2020-09-08T13:00:00</td></tr></tbody>
+            });
+            limparCampos();
 
         // Criamos uma isntancia do XmlhttpRequest para transferir os dados do clinte/servidor
         let xhrGet = new XMLHttpRequest();
@@ -99,10 +121,10 @@
               dataLancamento : filmeAno.value
               
           }
-          // Para enviar no post eu converto meu objeto para json
-          xhrPost.send(JSON.stringify(params));
-         
+            // Para enviar no post eu converto meu objeto para json
+            xhrPost.send(JSON.stringify(params));
      }
+
      function cadastroSucesso(){
          console.log('Sucessoo');
          console.log(this.status);
@@ -122,6 +144,8 @@
         xhrDelete.onerror = removeErro;
         xhrDelete.open('Delete', url + '/' + filme.value);
         xhrDelete.send();
+
+        listar();
 
      }
      function removeSucesso(){
