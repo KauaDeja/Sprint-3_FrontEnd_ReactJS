@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmes</title>
+</head>
+<body onload="listar()">
+    
+    <form id="form">
+        <input type="text" id="nome" placeholder="Nome do filme" required>
+        <input type="text" id="categoria" placeholder="Categoria" required>
+        <input type="text" id="ano" placeholder="Ano de lançamento" required>
+
+        <button type="button" onclick="cadastrar()" id="btnCadastrar">Cadastrar</button>
+        <button type="button" onclick="remover()" id="btnRemover">Remover</button>
+
+        <table>
+            <caption>Filmes</caption>
+            <thead>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Categoria
+                </th>
+                <th>
+                    Ano Lançamento
+                </th>
+            </thead>
+            <tbody id="tabela-lista-corpo"></tbody>
+        </table>
+    </form>
+
+</body>
+<script>
+    // url => endpoint
+     let url = "https://5f7f7f14d6aabe00166f064d.mockapi.io/api/filmes";
+     let filme = document.querySelector('#nome');
+     let filmeCategoria = document.querySelector('#categoria');
+     let filmeAno = document.querySelector('#ano');
+     // Armazena a categoria retornadas da api para que sejam globa, visiveis em outras funções
+     let filmes = [];
+
+
+     function listar(){
+
+        // Criamos uma isntancia do XmlhttpRequest para transferir os dados do clinte/servidor
+        let xhrGet = new XMLHttpRequest();
+
+        // Caso ocorra sucesso chamamos uma função
+        xhrGet.onload  = listarSucesso;
+
+        // Caso ocorra erro chamamos uma função
+        xhrGet.onerror = listarErro;
+        // Abrimos uma conexão passando o verbo(GET)e a url
+        xhrGet.open('GET', url);
+
+        //Enviar para APi
+        xhrGet.send();
+
+    }
+    function listarSucesso(){
+         console.log("Sucesso")
+         // Pega o retorno do this/XmlHttpResquest que aliás é uma const => Retorno da API
+         const data = this.responseText;
+         // Converte para array fazendo um json parse
+         filmes = JSON.parse(data);
+         //Parse => converte para objeto
+         console.log(filmes);// this o objeto que está sendo chamado = xmlhttprequest
+         limparCampos();
+        
+     }
+     // Caso ocorra uma chamada de api caiu na função, err é a descrição do erro
+     function listarErro(err){
+         console.log(err);
+         limparCampos();
+     }
+     function cadastrar(){
+         event.preventDefault();
+
+
+          let xhrPost = new XMLHttpRequest();
+
+          xhrPost.onload = cadastroSucesso;
+          xhrPost.onerror = cadastroErro;
+          // Envia os dados para API usando o metodo POST
+          xhrPost.open('POST', url);
+          // Vamos definir o tipo de conteudo do header
+          xhrPost.setRequestHeader('content-type','application/json');
+
+          // Cria o objeto com o nome da categoria
+          let params = {
+              name: filme.value,
+              categoria: filmeCategoria.value,
+              dataLancamento : filmeAno.value
+              
+          }
+          // Para enviar no post eu converto meu objeto para json
+          xhrPost.send(JSON.stringify(params));
+         
+     }
+     function cadastroSucesso(){
+         console.log('Sucessoo');
+         console.log(this.status);
+         console.log(JSON.parse(this.responseText));
+
+         listar();
+         limparCampos();
+     }
+
+     function cadastroErro(err){
+        console.log('Errou'+err)
+     }
+
+     function remover(){
+        let xhrDelete = new XMLHttpRequest();
+        xhrDelete.onload = removeSucesso;
+        xhrDelete.onerror = removeErro;
+        xhrDelete.open('Delete', url + '/' + filme.value);
+        xhrDelete.send();
+
+     }
+     function removeSucesso(){
+        console.log('Sucessoo');
+         console.log(this.status);
+         console.log(JSON.parse(this.responseText));
+
+         listar();
+         limparCampos();
+     }
+     function removeErro(err){
+         console.log(err)
+     }
+
+     function limparCampos(){
+            filme.value = "";
+            filmeAno.value = "";
+            filmeCategoria.value = "";
+
+            nome.focus();
+        }
+</script>
+</html>
