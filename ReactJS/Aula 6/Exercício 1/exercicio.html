@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício </title>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js" integrity="sha512-kp7YHLxuJDJcOzStgd6vtpxr4ZU9kjn77e6dBsivSz+pUuAuMlE2UTdKB7jjsWT84qbS8kdCWHPETnP/ctrFsA==" crossorigin="anonymous"></script>
+
+    <script type = "text/babel">
+    // JSX => Permite usar codigos html junto com java script
+    // Babel => serve de tradutor para o jsx
+
+        ReactDOM.render(
+            <form>
+                <h1>Exercício</h1>,
+                <label>Nome : 
+                    <input type="nome" placeholder = 'digite seu nome'/>
+                    <button type = "button" style = {{background : 'blue'}} >Enviar</button>
+                    <button type = "button" style = {{background : 'red'}} >Cancelar</button>
+                </label>
+            </form>,
+            document.querySelector('#root')
+        );
+    </script>
+</body>
+</html>
