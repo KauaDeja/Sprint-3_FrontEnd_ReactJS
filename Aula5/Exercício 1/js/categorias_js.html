@@ -146,7 +146,7 @@
 
           const editar = (id) => {
             fetch(url + '/' + id,{
-              method : 'GET'
+              method : 'PUT'
             })
             .then( response => response.json()) // ocorreu pego o response do json
             .then( dado =>{
@@ -157,13 +157,6 @@
             .catch(err => console.error(err));
           }
 
-          const limparCampos = () => {
-
-            document.querySelector('#formCategoria').reset();
-            document.querySelector('#categoriaId').value = "";
-            document.querySelector('#nome').focus();
-
-          }
 
           const salvar = () =>{
             event.preventDefault();
@@ -194,6 +187,12 @@
               listar();
             })
             .catch(err => console.error(err));
+
+          }
+          const limparCampos = () => {
+
+          document.querySelector('#categoriaId').value = "";
+          document.querySelector('#nome').focus();
 
           }
     </script>
